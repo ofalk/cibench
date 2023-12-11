@@ -12,6 +12,7 @@ stages:
 
 linux-kernel 1/2:
   stage: build
+  needs: ["before"]
   script:
     - wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
     - tar xfa linux-6.6.6.tar.xz
