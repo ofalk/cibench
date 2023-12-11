@@ -1,0 +1,53 @@
+image: alpine:3.18
+
+prep-os:
+  stage: build
+  script:
+    - apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev
+
+download-compile-kernel:
+  stage: build
+  dependencies:
+    - prep-os
+  script:
+    - wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
+    - tar xfa linux-6.6.6.tar.xz
+    - cd linux-6.6.6
+    - make defconfig
+    - start=`date +%s`
+    - make -j1
+    - end=`date +%s`
+    - echo "Executed in `expr $end - $start` seconds."
+    - start=`date +%s`
+    - make -j2
+    - end=`date +%s`
+    - echo "Executed in `expr $end - $start` seconds."
+    - start=`date +%s`
+    - make -j4
+    - end=`date +%s`
+    - echo "Executed in `expr $end - $start` seconds."
+    - start=`date +%s`
+    - make -j8
+    - end=`date +%s`
+    - echo "Executed in `expr $end - $start` seconds."
+
+hello-world:
+  stage: build
+  script:
+    - start=`date +%s%N`
+    - echo "Hello world"
+    - end=`date +%s%N`
+    - echo "Execution time was `expr $end - $start` nanoseconds."
+
+pages:
+  stage: deploy
+    - render
+  script:
+    - echo "Hello world"
+    - mkdir public
+  artifacts:
+    paths:
+      - public
+    expire_in: 14 days
+  only:
+    - main
