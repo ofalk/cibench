@@ -1,5 +1,10 @@
 image: alpine:3.18
 
+stages:
+  - build
+  - test
+  - deploy
+
 prep-os:
   stage: build
   script:
@@ -41,7 +46,6 @@ hello-world:
 
 pages:
   stage: deploy
-    - render
   script:
     - echo "Hello world"
     - mkdir public
