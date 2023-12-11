@@ -5,7 +5,7 @@ stages:
   - test
   - deploy
 
-before:
+.create_config:
   stage: build
   before_script:
     - apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev
@@ -19,7 +19,7 @@ linux-kernel 1/2:
     - make defconfig
   cache:
     paths:
-      .config
+      - .config
 
 
 linux-kernel 2/2:
