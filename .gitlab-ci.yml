@@ -22,6 +22,9 @@ linux-kernel 1/4:
     - make -j1
     - end=`date +%s`
     - echo "Executed in `expr $end - $start` seconds."
+  artifacts:
+    paths:
+      - linux-*/vmlinu?
 
 linux-kernel 2/4:
   stage: build
@@ -67,9 +70,8 @@ hello-world:
 pages:
   stage: deploy
   script:
-    - echo "Hello world"
     - mkdir public
-    - cp linux-*/vmlinux public/
+    - cp linux-*/vmlinu? public/
   artifacts:
     paths:
       - public
