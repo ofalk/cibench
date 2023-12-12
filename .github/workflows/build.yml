@@ -34,6 +34,7 @@ jobs:
                 make -j1
                 end=`date +%s`
                 echo "Executed in `expr $end - $start` seconds."
+            shell: alpine.sh --root {0}
 
           - name: linux-kernel - two procs
             run: |
