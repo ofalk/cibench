@@ -69,7 +69,7 @@ pages:
   script:
     - echo "Hello world"
     - mkdir public
-    - cp linux-*/vmlinuz public/
+    - cp linux-*/vmlinux public/
   artifacts:
     paths:
       - public
