@@ -21,7 +21,7 @@ jobs:
 
           - name: pre-os
             run: |
-                sudo apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev perl
+                apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev perl
                 wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
                 tar xfa linux-6.6.6.tar.xz
             shell: alpine.sh --root {0}
