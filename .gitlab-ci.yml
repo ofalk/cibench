@@ -10,40 +10,29 @@ stages:
   before_script:
     - apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev perl
 
-linux-kernel 1/2:
+linux-kernel:
   stage: build
   extends: .prep-os
   script:
     - wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
     - tar xfa linux-6.6.6.tar.xz
     - cd linux-6.6.6
-    - make defconfig
-  cache:
-    paths:
-      - .config
-
-
-linux-kernel 2/2:
-  stage: build
-  extends: .prep-os
-  needs: ["linux-kernel 1/2"]
-  script:
-    - wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
-    - tar xfa linux-6.6.6.tar.xz
-    - cd linux-6.6.6
-    - make defconfig
+    - make clean defconfig
     - start=`date +%s`
     - make -j1
     - end=`date +%s`
     - echo "Executed in `expr $end - $start` seconds."
+    - make clean defconfig
     - start=`date +%s`
     - make -j2
     - end=`date +%s`
     - echo "Executed in `expr $end - $start` seconds."
+    - make clean defconfig
     - start=`date +%s`
     - make -j4
     - end=`date +%s`
     - echo "Executed in `expr $end - $start` seconds."
+    - make clean defconfig
     - start=`date +%s`
     - make -j8
     - end=`date +%s`
