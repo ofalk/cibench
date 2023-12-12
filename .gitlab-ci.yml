@@ -8,7 +8,7 @@ stages:
 .prep-os:
   stage: build
   before_script:
-    - apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev
+    - apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev perl
 
 linux-kernel 1/2:
   stage: build
