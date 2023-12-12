@@ -8,25 +8,23 @@ name: build
 
 jobs:
     build-linux-kernel:
-        runs-on: alpine-${{ matrix.alpine_version }}
-        name: Alpine-${{ matrix.alpine_version }}
-        strategy:
-            fail-fast: false
-            matrix:
-                alpine_version: [3.18]
-
+        runs-on: ubuntu-latest
         steps:
           - name: Checkout
             uses: actions/checkout@v3
             with:
                 fetch-depth: 0
 
+         - uses: jirutka/setup-alpine@v1
+           with:
+              branch: v3.18
 
           - name: pre-os
             run: |
                 sudo apk add --no-cache gcc musl-dev make flex bison linux-headers elfutils-dev openssl-dev perl
                 wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.6.tar.xz
                 tar xfa linux-6.6.6.tar.xz
+            shell: alpine.sh --root {0}
 
           - name: linux-kernel - single proc
             run: |
@@ -45,6 +43,7 @@ jobs:
                 make -j2
                 end=`date +%s`
                 echo "Executed in `expr $end - $start` seconds."
+            shell: alpine.sh --root {0}
 
           - name: linux-kernel - four procs
             run: |
@@ -54,22 +53,19 @@ jobs:
                 make -j4
                 end=`date +%s`
                 echo "Executed in `expr $end - $start` seconds."
-
-          - name: Build
-            run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+            shell: alpine.sh --root {0}
 
     hello-world:
-        runs-on: alpine-${{ matrix.alpine_version }}
-        name: Alpine-${{ matrix.alpine_version }}
-        strategy:
-            fail-fast: false
-            matrix:
-                alpine_version: [3.18]
-
+        runs-on: ubuntu-latest
         steps:
+         - uses: jirutka/setup-alpine@v1
+           with:
+              branch: v3.18
+
           - name: hello-world
             run: |
                 start=`date +%s%N`
                 echo "Hello world"
                 end=`date +%s%N`
                 echo "Execution time was `expr $end - $start` nanoseconds." 
+            shell: alpine.sh --root {0}
