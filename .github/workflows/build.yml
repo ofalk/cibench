@@ -65,7 +65,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                ubuntu_version: [3.18]
+                alpine_version: [3.18]
                 shared: [ON, OFF]
 
         steps:
