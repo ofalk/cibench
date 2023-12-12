@@ -15,9 +15,9 @@ jobs:
             with:
                 fetch-depth: 0
 
-         - uses: jirutka/setup-alpine@v1
-           with:
-              branch: v3.18
+          - uses: jirutka/setup-alpine@v1
+            with:
+                branch: v3.18
 
           - name: pre-os
             run: |
